@@ -12,7 +12,7 @@
             <ul class="nav">
               <li<?php if (PAGE_NAV === PAGE_NAV_HOME) echo ' class="active"'; ?>><a href="index.php"><i class="icon-home"></i> Home</a></li>
               <li<?php if (PAGE_NAV === PAGE_NAV_NETWORK) echo ' class="active"'; ?>><a href="network.php"><i class="icon-wrench"></i> Network</a></li>
-              <li<?php if (PAGE_NAV === PAGE_NAV_MUSIC_SOURCE) echo ' class="active"'; ?>><a href="music_source.php"><i class="icon-music"></i> Music source</a></li>
+              <li<?php if (PAGE_NAV === PAGE_NAV_MUSIC_SOURCE) echo ' class="active"'; ?>><a href="music_source.php"><i class="icon-music"></i> Player configuration</a></li>
               <li<?php if (PAGE_NAV === PAGE_NAV_ABOUT) echo ' class="active"'; ?>><a href="about.php">About</a></li>
             </ul>
           </div><!--/.nav-collapse -->
