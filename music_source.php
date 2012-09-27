@@ -56,7 +56,7 @@ Select a valid Media Server where the box can connect and play your files.</div>
                         <td style="width: 30%">Manual Media Server IP Adress</td>
                         <td style="width: 50%">
                                 <div class="input-prepend">
-                                <span class="add-on"><i class="icon-hdd"></i></span><input size="15" id="inputIP" type="text">
+                                <span class="add-on"><i class="icon-hdd"></i></span><input size="15" id="inputManualIP" type="text">
                                 </div>
                         </td>
                         <td style="width: 20%"><button class="btn" type="button">Connect</button></td>
