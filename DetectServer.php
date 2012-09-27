@@ -12,9 +12,11 @@
  */
 
 define("SQUEEZECENTER_PORT", 3483);
-define("DISCOVER_PACKET", "d\x00\x01\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
-define("DISCOVER_PACKET_SIZE", 18);
-define("DISCOVER_TIMEOUT", 5); //5 seconds timeout
+//define("DISCOVER_PACKET", "d\x00\x01\x11\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00\x00");
+//define("DISCOVER_PACKET_SIZE", 18);
+define("DISCOVER_PACKET", "eNAME\x00JSON\x00IPAD\x00VERS\x00UUID\x00");
+define("DISCOVER_PACKET_SIZE", 26);
+define("DISCOVER_TIMEOUT", 1); //5 seconds timeout
 
 class DetectServer
 {
@@ -60,8 +62,9 @@ class DetectServer
                 {
                         if (@socket_recvfrom($this->sock, &$buf, 512, 0, &$remote_ip, &$remote_port))
                         {
-                                if ($buf[0] == 'D')
-                                        $this->servers[] = $remote_ip;
+                                $sc = $this->parsePacket($buf, $remote_ip);
+                                if ($sc !== false)
+                                        $this->servers[] = $sc;
                         }
                         else
                                 $quit = true;
@@ -72,6 +75,40 @@ class DetectServer
         {
                 return $this->servers;
         }
+
+        protected function parsePacket($buf, $remote_ip)
+        {
+                //not a Slimproto packet
+                if ($buf[0] !== 'E')
+                        return false;
+
+                $sc = array();
+                $sc['ip'] = $remote_ip;
+
+                $ptr = 1;
+                while ($ptr <= strlen($buf) - 5)
+                {
+                        $t = substr($buf, $ptr, 4);
+                        $l = ord(substr($buf, $ptr + 4, 4));
+                        $v = substr($buf, $ptr + 5, $l);
+                        $ptr = $ptr + 5 + $l;
+
+                        if ($t == "NAME") $sc["name"] = $v;
+                        else if ($t == "IPAD") $sc["ip"] = $v;
+                        else if ($t == "JSON") $sc["json"] = $v;
+                        else if ($t == "VERS") $sc["version"] = $v;
+                        else if ($t == "UUID") $sc["uuid"] = $v;
+                }
+
+                return $sc;
+        }
 }
+
+/*
+For testing purpose
+$d = new DetectServer();
+$d->discover();
+print_r($d->getServerList());
+*/
 
 ?>
