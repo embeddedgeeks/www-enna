@@ -52,6 +52,16 @@
                                        'result' => $d->getServerList());
                         die (json_encode($value));
                 }
+                else if ($jdata['cmd'] == 'current')
+                {
+                        $luaconf = file_get_contents($config['sq_config_path'] . $config['sq_playback_file']);
+                        $parser = new ConfigParser($luaconf);
+
+                        $value = array('action' => 'music_source',
+                                       'cmd' => 'current',
+                                       'result' => $parser->toArray());
+                        die (json_encode($value));
+                }
         }
 
         //Error unknown command/action

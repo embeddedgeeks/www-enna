@@ -18,6 +18,7 @@
 
         $config = array();
 
+        //Don't forget the ending '/'
         $config['sq_config_path'] = '/home/raoul/.squeezeplay/userpath/settings/';
 
         $config['sq_playback_file'] = 'Playback.lua';
