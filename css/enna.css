@@ -3,6 +3,9 @@ body {
   padding-bottom: 40px;
 }
 
+table { table-layout: fixed; }
+table th, table td { overflow: hidden; }
+
 .marketing {
   text-align: center;
   color: #5a5a5a;
