@@ -16,7 +16,7 @@ define("SQUEEZECENTER_PORT", 3483);
 //define("DISCOVER_PACKET_SIZE", 18);
 define("DISCOVER_PACKET", "eNAME\x00JSON\x00IPAD\x00VERS\x00UUID\x00");
 define("DISCOVER_PACKET_SIZE", 26);
-define("DISCOVER_TIMEOUT", 1); //5 seconds timeout
+define("DISCOVER_TIMEOUT", 5); //5 seconds timeout
 
 class DetectServer
 {
