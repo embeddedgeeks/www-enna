@@ -100,12 +100,26 @@ class DetectServer
                         else if ($t == "UUID") $sc["uuid"] = $v;
                 }
 
+                //try to get server MAC adresse from our arp cache
+                $arp = system('arp -a '.escapeshellarg($sc["ip"]));
+                $lines = explode("\n", $arp);
+
+                foreach($lines as $line)
+                {
+                        $cols = explode(' ', trim($line));
+
+                        if (strstr($cols[1], $sc['ip']) !== false)
+                        {
+                                $sc["mac"] = $cols[3];
+                        }
+                }
+
                 return $sc;
         }
 }
 
 /*
-For testing purpose
+//For testing purpose
 $d = new DetectServer();
 $d->discover();
 print_r($d->getServerList());
