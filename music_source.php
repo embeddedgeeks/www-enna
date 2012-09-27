@@ -20,6 +20,16 @@ Select a valid Media Server where the box can connect and play your files.</div>
 
                 <img id="cmusic_source_loading" alt="loading" src="img/ajax-loader2.gif" />
                 <div id="music_source_current">
+
+                <form class="form-inline">
+                        <label>Server Name :</label>
+                        <b><span id="currentName"></span></b>
+                </form>
+                <form class="form-inline">
+                        <label>Server IP :</label>
+                        <span id="currentIP"></span>
+                </form>
+
                 </div>
         </div>
 
@@ -61,16 +71,10 @@ Select a valid Media Server where the box can connect and play your files.</div>
 You can give this player a name that will be used to identify the player on the Media Server web pages.</div>
 
 <div class="row round-box">
-<form class="form-horizontal">
-        <div class="control-group">
-                <label class="control-label" for="inputName">Player Name</label>
-                <div class="controls">
-                        <input type="text" id="inputName" placeholder="Enna Player">
-                </div>
-                <div class="form-actions">
-                <button type="submit" class="btn btn-primary">Save changes</button>
-                </div>
-        </div>
+<form class="form-inline">
+        <label class="control-label" for="inputName">Player Name :</label>
+        <input type="text" id="inputName" placeholder="Enna Player">
+        <button type="submit" class="btn btn-primary">Save changes</button>
 </form>
 </div>
 
