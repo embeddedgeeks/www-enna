@@ -23,7 +23,7 @@ class DetectServer
         protected $sock = 0;
         protected $servers = array();
 
-        public  function __construct()
+        public function __construct()
         {
                 if(!($this->sock = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP)))
                 {

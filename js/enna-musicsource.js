@@ -28,9 +28,9 @@ $(document).ready(function()
                 success: function (data) {
                         $("#cmusic_source_loading").hide();
 
-                        $("#inputName").val(data.result['settings']['playerInit']['name']);
-                        $("#currentIP").html(data.result['settings']['serverInit']['ip']);
-                        $("#currentName").html(data.result['settings']['serverName']);
+                        $("#inputName").val(data.result['playerName']);
+                        $("#currentIP").html(data.result['ip']);
+                        $("#currentName").html(data.result['name']);
                 }
         });
 });

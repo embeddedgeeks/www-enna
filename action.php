@@ -3,8 +3,8 @@
         include_once('common.php');
         define('PAGE_NAV', 0);
 
-        require_once('ConfigParser.php');
         require_once('DetectServer.php');
+        require_once('SqueezeplayConfig.php');
 
         function die_error($error_forbidden = true)
         {
@@ -54,12 +54,13 @@
                 }
                 else if ($jdata['cmd'] == 'current')
                 {
-                        $luaconf = file_get_contents($config['sq_config_path'] . $config['sq_playback_file']);
-                        $parser = new ConfigParser($luaconf);
+                        $a = new SqueezeplayConfig();
+                        $infos = $a->getServerInfoAll();
+                        $infos['playerName'] = $a->getPlayerName();
 
                         $value = array('action' => 'music_source',
                                        'cmd' => 'current',
-                                       'result' => $parser->toArray());
+                                       'result' => $infos);
                         die (json_encode($value));
                 }
         }
