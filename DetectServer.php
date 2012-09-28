@@ -101,8 +101,7 @@ class DetectServer
                 }
 
                 //try to get server MAC adresse from our arp cache
-                $arp = system('arp -a '.escapeshellarg($sc["ip"]));
-                $lines = explode("\n", $arp);
+                exec('arp -a '.escapeshellarg($sc["ip"]), $lines);
 
                 foreach($lines as $line)
                 {
