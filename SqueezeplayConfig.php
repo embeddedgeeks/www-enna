@@ -29,9 +29,16 @@ class SqueezeplayConfig
                 global $config;
 
                 $filename = $config['sq_config_path'] . $config['sq_playback_file'];
-                if (is_readable($filename))
+                try
                 {
+                        if (!is_readable($filename))
+                                throw new Exception('File not found');
                         $luaconf = file_get_contents($filename);
+                        //Clean file
+                        $luaconf = str_replace(array("\r\n", "\n", "\r"), "", $luaconf);
+                        //reformat lua config with newlines
+                        $luaconf = str_replace(array("{", ","), array("{\n", ",\n"), $luaconf);
+
                         $parser = new ConfigParser($luaconf);
                         $c = $parser->toArray();
 
@@ -41,6 +48,14 @@ class SqueezeplayConfig
                                 $this->serverInfos['mac'] = $c['settings']['serverInit']['mac'];
                         $this->serverInfos['ip'] = $c['settings']['serverInit']['ip'];
                         $this->serverInfos['name'] = $c['settings']['serverName'];
+                }
+                catch (Exception $e)
+                {
+                        //Can't parse lua config, reset it
+                        @unlink($filename);
+                        $this->serverInfos['uuid'] = "Unknown";
+                        $this->serverInfos['ip'] = "None";
+                        $this->serverInfos['name'] = "None";
                 }
 
                 //Write setupdone into lua config to tell squeezeplay setup is done and don't bother with that
@@ -60,7 +75,7 @@ class SqueezeplayConfig
                 //write changes to config file
                 $mac = "";
                 if (array_key_exists('mac', $this->serverInfos))
-                        $mac = sprintf('mac="%s",', $this->serverInfos['mac']);
+                        $mac = sprintf("mac=\"%s\",\n", $this->serverInfos['mac']);
                 $conf = sprintf(SQUEEZEPLAY_PLAYBACK_CONFIG, $this->serverInfos['uuid'],
                                                              $mac,
                                                              $this->serverInfos['ip'],
@@ -73,7 +88,11 @@ class SqueezeplayConfig
                         $fp = fopen($filename, 'w');
                         fwrite($fp, $conf);
                         fclose($fp);
+
+                        return true;
                 }
+
+                return false;
         }
 
         public function setPlayerName($name)

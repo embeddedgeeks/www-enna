@@ -63,6 +63,17 @@
                                        'result' => $infos);
                         die (json_encode($value));
                 }
+                else if ($jdata['cmd'] == 'setName' && $jdata['value'] != "")
+                {
+                        $a = new SqueezeplayConfig();
+                        $a->setPlayerName($jdata['value']);
+                        $ret = $a->commitChanges();
+
+                        $value = array('action' => 'music_source',
+                                       'cmd' => 'setName',
+                                       'done' => $ret);
+                        die (json_encode($value));
+                }
         }
 
         //Error unknown command/action

@@ -33,4 +33,20 @@ $(document).ready(function()
                         $("#currentName").html(data.result['name']);
                 }
         });
+
+        $("#btChangeName").click(function ()
+        {
+                var btn = $(this);
+                btn.button('loading');
+                $.ajax({
+                        url: 'action.php',
+                       type: 'POST',
+                       data: '{ "action": "music_source", "cmd": "setName", "value": "' + $("#inputName").val() + '" }',
+                       success: function (data) {
+                               setTimeout(function () {
+                                       btn.button('reset')
+                               }, 1000)
+                       }
+        });
+        });
 });

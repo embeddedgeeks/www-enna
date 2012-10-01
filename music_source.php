@@ -74,7 +74,7 @@ You can give this player a name that will be used to identify the player on the 
 <form class="form-inline">
         <label class="control-label" for="inputName">Player Name :</label>
         <input type="text" id="inputName" placeholder="Enna Player">
-        <button type="submit" class="btn btn-primary">Save changes</button>
+        <button id="btChangeName" type="button" class="btn btn-primary" data-loading-text="Saving...">Save changes</button>
 </form>
 </div>
 

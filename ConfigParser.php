@@ -35,25 +35,25 @@ class ConfigParser
      * @var array
      */
     protected $lua = array();
-    
+
     /**
      * The current possition in the array we are parsing
      * @var integer
      */
     protected $position = 0;
-    
+
     /**
      * The size of the lua array
      * @var integer
      */
     protected $lines = 0;
-    
+
     /**
      * Array containing the result of the parse
      * @var array
      */
     protected $data = array();
-    
+
     /**
      * Constructor
      *
@@ -84,7 +84,7 @@ class ConfigParser
         $this->parse();
         return $this;
     }
-    
+
     /**
      * Returns the array the parsed from the lua file.
      *
@@ -94,7 +94,7 @@ class ConfigParser
     {
         return $this->data;
     }
-    
+
     /**
      * Starts the parsing of the lua array.
      *
@@ -106,7 +106,7 @@ class ConfigParser
         // Clear the array containing the lua data file to save memory usage.
         unset($this->lua);
     }
-    
+
     /**
      * Does the actually parsing of the lua table.
      *
@@ -125,9 +125,9 @@ class ConfigParser
                 $stop = true;
                 break;
             }
-            
+
             $strs = explode("=", utf8_decode($this->lua[$i]));
-            
+
             if (isset($strs[1]) && trim($strs[1]) == "{") {
               $i++;
               $data[$this->arrayId(trim($strs[0]))] = $this->parser($i);
@@ -139,13 +139,13 @@ class ConfigParser
               if (strlen($this->arrayId(trim($strs[0]))) > 0 && strlen($strs[1]) > 0) {
                 $data[$this->arrayId(trim($strs[0]))] = $this->trimValue($strs[1]);
               }
-            } 
+            }
           }
         }
         $position = $i;
         return $data;
     }
-    
+
     /**
      * Trims of leading and trailing quotationmarks and tailing comman from
      * the value.
@@ -175,10 +175,10 @@ class ConfigParser
         if ($string =='true') {
             $string = true;
         }
-        
+
         return $string;
     }
-    
+
     /**
      * Extracts the Key-Value for array indexing.
      *
@@ -194,9 +194,9 @@ class ConfigParser
      */
     protected function arrayId($string)
     {
-        $id = sscanf($string, "[%d]");  
+        $id = sscanf($string, "[%d]");
         if (strlen($id[0])>0) {
-          return $id[0];    
+          return $id[0];
         } else {
           if (substr($string,0,1)=="[") {
             $string  = substr($string,1,strlen($string));
@@ -211,6 +211,6 @@ class ConfigParser
             $string  = substr($string,0,strlen($string)-1);
           }
           return $string;
-        } 
+        }
     }
 }
