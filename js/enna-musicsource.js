@@ -54,6 +54,22 @@ $(document).ready(function()
                 }
         });
 
+        $("#btManualIP").click(function () {
+                var btn = $(this);
+                btn.button('loading');
+                $.ajax({
+                        url: 'action.php',
+                       type: 'POST',
+                       data: '{ "action": "music_source", "cmd": "setServer", "value": {"ip":"' + $("#inputManualIP").val() + '"} }',
+                       success: function (data) {
+                               setTimeout(function () {
+                                       btn.button('reset');
+                                       loadInfos();
+                               }, 1000)
+                       }
+                });
+        });
+
         loadInfos();
 
         $("#btChangeName").click(function ()

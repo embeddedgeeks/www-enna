@@ -130,6 +130,11 @@ class SqueezeplayConfig
         public function setServerInfoAll($infos)
         {
                 $this->serverInfos = $infos;
+
+                if ($this->getServerInfo('name') === false)
+                        $this->setServerInfo('name', 'Unknown');
+                if ($this->getServerInfo('uuid') === false)
+                        $this->setServerInfo('uuid', '');
         }
 }
 
