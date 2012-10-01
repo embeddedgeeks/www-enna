@@ -74,6 +74,17 @@
                                        'done' => $ret);
                         die (json_encode($value));
                 }
+                else if ($jdata['cmd'] == 'setServer' && is_array($jdata['value']))
+                {
+                        $a = new SqueezeplayConfig();
+                        $a->setServerInfoAll($jdata['value']);
+                        $ret = $a->commitChanges();
+
+                        $value = array('action' => 'music_source',
+                                       'cmd' => 'setServer',
+                                       'done' => $ret);
+                        die (json_encode($value));
+                }
         }
 
         //Error unknown command/action

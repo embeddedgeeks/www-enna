@@ -60,12 +60,9 @@ class SqueezeplayConfig
 
                 //Write setupdone into lua config to tell squeezeplay setup is done and don't bother with that
                 $filename = $config['sq_config_path'] . $config['sq_welcome_file'];
-                if (is_writable($filename))
-                {
-                        $fp = fopen($filename, 'w');
-                        fwrite($fp, 'settings = {setupDone=true,}');
-                        fclose($fp);
-                }
+                $fp = fopen($filename, 'w');
+                fwrite($fp, 'settings = {setupDone=true,}');
+                fclose($fp);
         }
 
         public function commitChanges()
@@ -76,6 +73,8 @@ class SqueezeplayConfig
                 $mac = "";
                 if (array_key_exists('mac', $this->serverInfos))
                         $mac = sprintf("mac=\"%s\",\n", $this->serverInfos['mac']);
+                if ($this->playerName == "")
+                        $this->playerName = $config['product_name'];
                 $conf = sprintf(SQUEEZEPLAY_PLAYBACK_CONFIG, $this->serverInfos['uuid'],
                                                              $mac,
                                                              $this->serverInfos['ip'],
@@ -83,16 +82,21 @@ class SqueezeplayConfig
                                                              $this->playerName);
 
                 $filename = $config['sq_config_path'] . $config['sq_playback_file'];
-                if (is_writable($filename))
+                if (file_exists($filename) && !is_writable($filename))
+                        return false;
+
+                try
                 {
                         $fp = fopen($filename, 'w');
                         fwrite($fp, $conf);
                         fclose($fp);
-
-                        return true;
+                }
+                catch(Exception $e)
+                {
+                        return false;
                 }
 
-                return false;
+                return true;
         }
 
         public function setPlayerName($name)
@@ -121,6 +125,11 @@ class SqueezeplayConfig
         public function getServerInfoAll()
         {
                 return $this->serverInfos;
+        }
+
+        public function setServerInfoAll($infos)
+        {
+                $this->serverInfos = $infos;
         }
 }
 
