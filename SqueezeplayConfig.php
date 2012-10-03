@@ -96,6 +96,9 @@ class SqueezeplayConfig
                         return false;
                 }
 
+                //restart jive service
+                exec('systemctl restart jive.service', $ret);
+
                 return true;
         }
 
